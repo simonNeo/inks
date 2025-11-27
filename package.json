@@ -1,0 +1,21 @@
+{
+  "name": "inks",
+  "version": "1.0.0",
+  "description": "",
+  "private": true,
+  "scripts": {
+    "dev": "turbo run dev",
+    "dev:example": "turbo run dev --filter=with-hooks...",
+    "build": "turbo run build",
+    "test": "turbo run test",
+    "lint": "turbo run lint",
+    "clean": "turbo run clean"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "packageManager": "pnpm@10.20.0",
+  "devDependencies": {
+    "turbo": "^2.0.0"
+  }
+}

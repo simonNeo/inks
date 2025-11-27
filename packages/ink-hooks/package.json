@@ -1,0 +1,64 @@
+{
+  "name": "ink-hooks",
+  "version": "1.0.0",
+  "description": "A collection of useful React hooks for building CLI applications with Ink",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.cjs",
+      "default": "./dist/index.mjs"
+    }
+  },
+  "scripts": {
+    "build": "tsup",
+    "dev": "tsup --watch",
+    "clean": "rm -rf dist"
+  },
+  "keywords": [
+    "ink",
+    "react",
+    "hooks",
+    "cli",
+    "terminal",
+    "tui",
+    "stdout",
+    "dimensions",
+    "box-model",
+    "fullscreen"
+  ],
+  "author": "Simon Neo",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/simonneo/inks.git",
+    "directory": "packages/ink-hooks"
+  },
+  "bugs": {
+    "url": "https://github.com/simonneo/inks/issues"
+  },
+  "homepage": "https://github.com/simonneo/inks/tree/main/packages/ink-hooks#readme",
+  "packageManager": "pnpm@10.20.0",
+  "devDependencies": {
+    "@types/node": "^24.10.1",
+    "@types/react": "^19.0.0",
+    "tsup": "^8.5.1",
+    "tsx": "^4.20.6",
+    "typescript": "^5.9.3",
+    "vitest": "^4.0.14"
+  },
+  "peerDependencies": {
+    "ink": "^6.5.1",
+    "react": "^19.2.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}
