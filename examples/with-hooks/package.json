@@ -2,11 +2,11 @@
   "name": "with-hooks",
   "version": "1.0.0",
   "description": "Example project using ink-hooks",
-  "main": "dist/index.js",
+  "main": "dist/index.mjs",
   "type": "module",
   "scripts": {
-    "dev": "tsx --watch src/index.tsx",
-    "build": "tsc",
+    "dev": "tsup",
+    "build": "tsup",
     "clean": "rm -rf dist"
   },
   "keywords": [],
@@ -14,13 +14,14 @@
   "license": "ISC",
   "packageManager": "pnpm@10.20.0",
   "dependencies": {
-    "ink-hooks": "workspace:*",
     "ink": "^6.5.1",
+    "ink-hooks": "workspace:*",
     "react": "^19.2.0"
   },
   "devDependencies": {
     "@types/node": "^24.10.1",
     "@types/react": "^19.0.0",
+    "tsup": "^8.5.1",
     "tsx": "^4.20.6",
     "typescript": "^5.9.3"
   }

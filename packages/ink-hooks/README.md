@@ -10,6 +10,10 @@ A collection of useful React hooks for building CLI applications with [Ink](http
 - 📐 **Box Model Support** - Calculate content, padding, border, and margin dimensions
 - 🖥️ **Fullscreen Support** - Easy fullscreen mode management
 
+## Screenshot
+
+![Example screenshot](screenshots/hooks.png)
+
 ## Installation
 
 ```bash
