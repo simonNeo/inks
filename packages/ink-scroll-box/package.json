@@ -1,6 +1,6 @@
 {
   "name": "ink-scroll-box",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "A scrollable container component for Ink CLI applications",
   "main": "./dist/index.cjs",
   "module": "./dist/index.mjs",
