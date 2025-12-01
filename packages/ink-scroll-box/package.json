@@ -1,6 +1,6 @@
 {
   "name": "ink-scroll-box",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A scrollable container component for Ink CLI applications",
   "main": "./dist/index.cjs",
   "module": "./dist/index.mjs",
@@ -51,6 +51,9 @@
     "tsx": "^4.20.6",
     "typescript": "^5.9.3",
     "vitest": "^4.0.14"
+  },
+  "dependencies": {
+    "ink-hooks": "workspace:*"
   },
   "peerDependencies": {
     "ink": "^6.5.1",

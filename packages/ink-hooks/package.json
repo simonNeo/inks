@@ -1,6 +1,6 @@
 {
   "name": "ink-hooks",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A collection of useful React hooks for building CLI applications with Ink",
   "main": "./dist/index.cjs",
   "module": "./dist/index.mjs",

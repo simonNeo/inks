@@ -1,5 +1,7 @@
 # ink-hooks
 
+English | [中文](README.zh.md)
+
 A collection of useful React hooks for building CLI applications with [Ink](https://github.com/vadimdemedes/ink).
 
 ## Features
@@ -138,7 +140,7 @@ function App() {
 
 ## Examples
 
-Check out the [examples directory](https://github.com/simonneo/inks/tree/main/examples) for more usage examples.
+Check out the [examples directory](../../examples) for more usage examples.
 
 ## License
 

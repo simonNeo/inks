@@ -1,11 +1,11 @@
 {
-  "name": "with-hooks",
+  "name": "use-scroll-box",
   "version": "1.0.0",
-  "description": "Example project using ink-hooks",
+  "description": "Example project using ink-scroll-box",
   "main": "dist/index.mjs",
   "type": "module",
   "scripts": {
-    "dev": "tsup",
+    "dev": "tsup --watch",
     "build": "tsup",
     "clean": "rm -rf dist"
   },
@@ -15,7 +15,7 @@
   "packageManager": "pnpm@10.20.0",
   "dependencies": {
     "ink": "^6.5.1",
-    "ink-hooks": "workspace:*",
+    "ink-scroll-box": "workspace:*",
     "react": "^19.2.0"
   },
   "devDependencies": {

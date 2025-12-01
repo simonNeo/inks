@@ -1,5 +1,7 @@
 # Inks
 
+English | [中文](README.zh.md)
+
 A monorepo providing useful tools and components for [Ink](https://github.com/vadimdemedes/ink) developers.
 
 ## 📦 Project Structure
@@ -8,10 +10,12 @@ This is a monorepo built with [pnpm workspace](https://pnpm.io/workspaces) and [
 
 ```
 inks/
-├── packages/          # Published npm packages
-│   └── ink-hooks/    # React hooks for Ink
-├── examples/         # Example projects
-│   └── with-hooks/   # Example using ink-hooks
+├── packages/              # Published npm packages
+│   ├── ink-hooks/        # React hooks for Ink
+│   └── ink-scroll-box/   # Scrollable container component for Ink
+├── examples/             # Example projects
+│   ├── use-hooks/        # Example using ink-hooks
+│   └── use-scroll-box/   # Example using ink-scroll-box
 └── ...
 ```
 
@@ -74,24 +78,19 @@ A collection of useful React hooks for building Ink applications.
 
 For detailed documentation and usage examples, see [ink-hooks README](./packages/ink-hooks/README.md).
 
-## 🎯 Examples
+### [ink-scroll-box](./packages/ink-scroll-box)
 
-### with-hooks
+A scrollable container component for Ink CLI applications. Efficiently renders large lists by only displaying visible items, with support for both item-by-item and page-by-page scrolling modes.
 
-Example project demonstrating how to use `ink-hooks`.
+**Features:**
+- 🎯 Type-safe - Built with TypeScript
+- 📦 Performant - Only renders visible items for optimal performance
+- 🔄 Dual Scroll Modes - Support for item-by-item and page-by-page scrolling
+- ⌨️ Keyboard Navigation - Arrow keys and 'up'/'down' input support
+- 🎨 Customizable - Flexible rendering with custom item renderers
+- 📐 Box Model Support - Supports all Ink Box props (padding, margin, border, etc.) with automatic adaptation when container has padding/border
 
-Run the example:
-
-```bash
-cd examples/with-hooks
-pnpm dev
-```
-
-Or from the root directory:
-
-```bash
-pnpm dev:example
-```
+For detailed documentation and usage examples, see [ink-scroll-box README](./packages/ink-scroll-box/README.md).
 
 ## 🛠️ Tech Stack
 
@@ -117,7 +116,8 @@ pnpm dev:example
    ```json
    {
      "dependencies": {
-       "ink-hooks": "workspace:*"
+       "ink-hooks": "workspace:*",
+       "ink-scroll-box": "workspace:*"
      }
    }
    ```

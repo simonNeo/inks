@@ -5,5 +5,4 @@
  */
 
 export { ScrollBox } from './ScrollBox.js';
-export type { ScrollBoxProps } from './ScrollBox.js';
-
+export type { ScrollBoxProps, ScrollBoxState } from './ScrollBox.js';

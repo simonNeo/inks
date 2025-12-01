@@ -12,7 +12,7 @@ importers:
         specifier: ^2.0.0
         version: 2.6.1
 
-  examples/with-hooks:
+  examples/use-hooks:
     dependencies:
       ink:
         specifier: ^6.5.1
@@ -20,6 +20,34 @@ importers:
       ink-hooks:
         specifier: workspace:*
         version: link:../../packages/ink-hooks
+      react:
+        specifier: ^19.2.0
+        version: 19.2.0
+    devDependencies:
+      '@types/node':
+        specifier: ^24.10.1
+        version: 24.10.1
+      '@types/react':
+        specifier: ^19.0.0
+        version: 19.2.7
+      tsup:
+        specifier: ^8.5.1
+        version: 8.5.1(postcss@8.5.6)(tsx@4.20.6)(typescript@5.9.3)
+      tsx:
+        specifier: ^4.20.6
+        version: 4.20.6
+      typescript:
+        specifier: ^5.9.3
+        version: 5.9.3
+
+  examples/use-scroll-box:
+    dependencies:
+      ink:
+        specifier: ^6.5.1
+        version: 6.5.1(@types/react@19.2.7)(react@19.2.0)
+      ink-scroll-box:
+        specifier: workspace:*
+        version: link:../../packages/ink-scroll-box
       react:
         specifier: ^19.2.0
         version: 19.2.0
@@ -73,6 +101,9 @@ importers:
       ink:
         specifier: ^6.5.1
         version: 6.5.1(@types/react@19.2.7)(react@19.2.0)
+      ink-hooks:
+        specifier: workspace:*
+        version: link:../ink-hooks
       react:
         specifier: ^19.2.0
         version: 19.2.0

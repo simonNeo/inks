@@ -1,18 +1,35 @@
-import { Box, BoxProps, useInput } from "ink";
+import { Box, BoxProps, Text, useInput } from "ink";
+import { useBoxModel } from "ink-hooks";
 import React, { useCallback, useState, useMemo, useEffect } from "react";
+
+function getEndIndex(startIndex: number, maxRows: number, listLength: number) {
+  return Math.min(startIndex + maxRows, listLength);
+}
+
+function getShowRange(startIndex: number, maxRows: number, listLength: number) {
+  return {
+    start: startIndex,
+    end: getEndIndex(startIndex, maxRows, listLength),
+  }
+}
+
+export interface ScrollBoxState<T> {
+  item?: T;
+  index: number;
+  startIndex: number;
+  endIndex: number;
+}
 
 /**
  * Props for the ScrollBox component
  */
 export interface ScrollBoxProps<T> extends BoxProps {
-  /** Maximum number of rows to render at once */
-  maxRows: number;
-  /** Array of data items to display */
+  /** Original data items to display */
   list: T[];
   /** 
    * Render function for each item. Must render a single row.
    * @param item - The current item from the list
-   * @param isActive - Whether this item is currently active/selected (only in 'item' scroll mode)
+   * @param isActive - Whether this item is currently active/selected (only in 'item' scroll mode, otherwise false)
    */
   renderItem: (item: T, isActive: boolean) => React.ReactNode;
   /** Whether scrolling is enabled. When true, arrow keys will be listened to */
@@ -26,7 +43,8 @@ export interface ScrollBoxProps<T> extends BoxProps {
    * Callback function called when scroll state changes
    * @param result - Object containing current data, index, and visible range
    */
-  onChange?: (result: { data?: T; index: number; startIndex: number; endIndex: number }) => void;
+  onChange?: (result: ScrollBoxState<T>) => void;
+  onSelect?: (result: ScrollBoxState<T>) => void;
 }
 
 /**
@@ -39,7 +57,10 @@ export interface ScrollBoxProps<T> extends BoxProps {
  * @param props - ScrollBox component props
  */
 export function ScrollBox<T>(props: ScrollBoxProps<T>) {
-  const { maxRows, list, renderItem, enableScroll, scrollMode = 'item', onChange, ...rest } = props;
+  const { list, renderItem, enableScroll, scrollMode = 'item', onChange=() => null, onSelect=() => null, ...rest } = props;
+
+  const {ref, content} = useBoxModel(props)
+  const maxRows = content.height;
   
   /** Current selected index (only used in 'item' scroll mode) */
   const [index, setIndex] = useState(0);
@@ -51,8 +72,7 @@ export function ScrollBox<T>(props: ScrollBoxProps<T>) {
    * Ensures we don't exceed the list length
    */
   const visibleRange = useMemo(() => {
-    const endIndex = Math.min(startIndex + maxRows, list.length);
-    return { start: startIndex, end: endIndex };
+    return getShowRange(startIndex, maxRows, list.length);
   }, [startIndex, maxRows, list.length]);
 
   /**
@@ -67,17 +87,26 @@ export function ScrollBox<T>(props: ScrollBoxProps<T>) {
    * Only provides data in 'item' scroll mode when a valid item is selected
    */
   useEffect(() => {
-    if (!onChange) return;
-
     const result = {
       data: scrollMode === 'item' && index >= 0 && index < list.length ? list[index] : undefined,
       index,
       startIndex: visibleRange.start,
       endIndex: visibleRange.end,
     };
-    onChange(result);
-  }, [index, visibleRange.start, visibleRange.end, scrollMode, list, onChange]);
+    onSelect(result);
+  }, [index, visibleRange.start, visibleRange.end, scrollMode, list, onSelect]);
 
+  const changeIndex = useCallback((index: number) => {
+    setIndex(index);
+    const range = getShowRange(startIndex, maxRows, list.length);
+    const result = {
+      item: scrollMode === 'item' && index >= 0 && index < list.length ? list[index] : undefined,
+      index,
+      startIndex: range.start,
+      endIndex: range.end,
+    }
+    onChange(result);
+  }, [scrollMode, maxRows, startIndex, list, onChange])
   /**
    * Handle scroll actions (up or down)
    * Supports two scroll modes:
@@ -101,7 +130,8 @@ export function ScrollBox<T>(props: ScrollBoxProps<T>) {
             : newStartIndex;
           setStartIndex(finalStartIndex);
           // In page mode, set index to the first visible item of the new page
-          setIndex(finalStartIndex);
+          // setIndex(finalStartIndex);
+          changeIndex(finalStartIndex);
         }
       } else {
         // Scroll up one page: new start position is current start minus maxRows
@@ -109,11 +139,11 @@ export function ScrollBox<T>(props: ScrollBoxProps<T>) {
         if (newStartIndex >= 0) {
           setStartIndex(newStartIndex);
           // In page mode, set index to the first visible item of the new page
-          setIndex(newStartIndex);
+          changeIndex(newStartIndex);
         } else {
           // If less than 0, go back to the first page
           setStartIndex(0);
-          setIndex(0);
+          changeIndex(0);
         }
       }
     } else {
@@ -125,13 +155,13 @@ export function ScrollBox<T>(props: ScrollBoxProps<T>) {
           // Check if new index is within visible range
           if (newIndex < visibleRange.end) {
             // Within visible range, only update index
-            setIndex(newIndex);
+            changeIndex(newIndex);
           } else {
             // Outside visible range, need to scroll
             // New index should be at the last position of visible range
             const newStartIndex = newIndex - maxRows + 1;
             setStartIndex(Math.max(0, newStartIndex));
-            setIndex(newIndex);
+            changeIndex(newIndex);
           }
         }
         // If already at the last item, do nothing
@@ -142,18 +172,18 @@ export function ScrollBox<T>(props: ScrollBoxProps<T>) {
           // Check if new index is within visible range
           if (newIndex >= visibleRange.start) {
             // Within visible range, only update index
-            setIndex(newIndex);
+            changeIndex(newIndex);
           } else {
             // Before visible range, need to scroll
             // New index should be at the first position of visible range
             setStartIndex(newIndex);
-            setIndex(newIndex);
+            changeIndex(newIndex);
           }
         }
         // If already at the first item, do nothing
       }
     }
-  }, [index, list.length, visibleRange, maxRows, scrollMode, startIndex]);
+  }, [index, list.length, visibleRange, maxRows, scrollMode, startIndex, changeIndex]);
 
   /**
    * Handle keyboard input for scrolling
@@ -176,15 +206,16 @@ export function ScrollBox<T>(props: ScrollBoxProps<T>) {
    * Only renders items within the visible range for performance
    */
   return (
-    <Box flexDirection="column" {...rest}>
+    <Box ref={ref} {...rest} flexDirection="column" >
       {visibleData.map((item, i) => {
         // Calculate the actual index in the original list
         const actualIndex = visibleRange.start + i;
         // Only mark as active in 'item' scroll mode when it matches current index
-        const isActive = props.scrollMode === 'item' ? actualIndex === index : false;
+        const isActive = scrollMode === 'item' ? actualIndex === index : false;
         return (
           <Box key={actualIndex}>
             {renderItem(item, isActive)}
+            {/* <Text> {typeof actualIndex} {typeof index} {actualIndex} === {index}: {isActive ? 'true' : 'false'}</Text> */}
           </Box>
         );
       })}
